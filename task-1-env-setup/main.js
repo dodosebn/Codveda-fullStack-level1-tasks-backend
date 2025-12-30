@@ -4,7 +4,6 @@ import pkg from "pg";
 const { Client } = pkg;
 import cors from "cors";
 dotenv.config({path: './config.env' })
-// whatever variable we've saved in the config.env will be saved in node js environment
 export const app = express();
 app.use(express.json());
 app.use(cors());
