@@ -8,8 +8,8 @@ if(!title){
   return res.status(400).json({error: "Title is required"});
 }
 const result = await pool.query(
-  "INSERT INT0 todod (title) VALUES ($1) RETURNING *",
-  [title]
+  "INSERT INTO todos (title, completed, createdat) VALUES ($1, $2, NOW()) RETURNING *",
+  [title, false]
 );
 res.status(201).json(result.rows[0]);
   }catch(err){
@@ -37,7 +37,7 @@ app.get("/todos/:id", async (req, res) => {
       [req.params.id]
     );
     if(result.rows.length === 0){
-      return res.status(400).json({error: "Todo not found"});
+      return res.status(404).json({error: "Todo not found"});
     }
     res.status(200).json(result.rows[0]);
   }catch(err){
@@ -48,10 +48,10 @@ app.get("/todos/:id", async (req, res) => {
 
 app.put("/todos/:id", async (req, res) => {
   try{
-    const {completed} = req.body;
+    const {title, completed} = req.body;
     const result = await pool.query(
-      "UPDATE todos SET completed =$1 WHERE id = $2 RETURNING *",
-      [completed, req.params.id]
+      "UPDATE todos SET title = COALESCE($1, title), completed = COALESCE($2, completed) WHERE id = $3 RETURNING *",
+      [title, completed, req.params.id]
     );
     if(result.rows.length === 0){
       return res.status(400).json({error: "Todo not found"});
