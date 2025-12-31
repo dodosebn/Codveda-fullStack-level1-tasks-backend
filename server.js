@@ -1,5 +1,5 @@
-import { app, db } from "./task-1-env-setup/main.js";
-db.connect();
+import { app, pool } from "./task-1-env-setup/main.js";
+
 
 app.post("/postTodos", async (req, res) => {
   const { title } = req.body;
