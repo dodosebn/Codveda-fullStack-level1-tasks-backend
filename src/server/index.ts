@@ -5,7 +5,7 @@ import type { Request, Response } from "express";
 import dotenv from "dotenv";
 import app from "../app";
 import { pool } from "../db";
-
+import userRoutes from "../routes/useRoute";
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -93,3 +93,4 @@ app.post("/login", async (req: Request, res: Response) => {
     res.status(500).json({ error: "Login failed" });
   }
 });
+app.use("/user", userRoutes);

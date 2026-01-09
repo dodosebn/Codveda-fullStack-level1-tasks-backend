@@ -1,3 +1,5 @@
+// this is src/services/authenticate.ts
+
 import type { Request, Response, NextFunction } from "express";
 import jwt, { type JwtPayload } from "jsonwebtoken";
 import dotenv from "dotenv";
@@ -10,9 +12,7 @@ if (!JWT_SECRET) {
   throw new Error("JWT_SECRET is not defined in environment variables");
 }
 
-/**
- * Extend Express Request to include user
- */
+
 export interface AuthenticatedRequest extends Request {
   user?: {
     id: string;
@@ -26,7 +26,6 @@ const authenticate = (
 ): void => {
   const authHeader = req.headers.authorization;
 
-  // Expect: Authorization: Bearer <token>
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     res.status(401).json({ error: "Unauthorized: No token provided" });
     return;
@@ -42,7 +41,6 @@ const authenticate = (
       return;
     }
 
-    // Attach user info to request
     req.user = {
       id: String(decoded.userId),
     };

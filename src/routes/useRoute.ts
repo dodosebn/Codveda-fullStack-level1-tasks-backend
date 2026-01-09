@@ -1,10 +1,13 @@
-import type { Response } from "express";
-import type { AuthenticatedRequest } from "../services/authenticate";
-import app from "../app";
-import authenticate from "../services/authenticate";
+// src/routes/userRoutes.ts
+import { Router, type Response } from "express";
+import authenticate, { type AuthenticatedRequest } from "../services/authenticate";
 
-app.get("/profile", authenticate, async (req: AuthenticatedRequest, res: Response) => {
-  const userId = req.user?.id; 
+const router = Router();
+
+router.get("/profile", authenticate, async (req, res) => {
+  const authReq = req as AuthenticatedRequest; // ✅ Type assertion
+  const userId = authReq.user?.id;
   res.json({ userId });
 });
-export default app;
+
+export default router;

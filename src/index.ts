@@ -1,5 +1,6 @@
 import app from "./app";
 import { pool } from "./db";
+import './server/index';
 const PORT = process.env.PORT || 3000;
 import { Request, Response } from "express";
 app.post("/postTodos", async (req: Request, res: Response)=> {
