@@ -15,4 +15,7 @@ const pool = new Pool({
     },
 });
 exports.pool = pool;
-pool.connect().then(() => console.log('Connected to the database')).catch((err) => console.error('Database connection error', err));
+pool
+    .connect()
+    .then(() => console.log("Connected to the database"))
+    .catch((err) => console.error("Database connection error", err));
